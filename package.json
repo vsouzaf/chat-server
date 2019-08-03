@@ -1,0 +1,29 @@
+{
+  "name": "softure-chat",
+  "version": "1.0.0",
+  "description": "API de Chat softure",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vsouzaf/softure-chat.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vsouzaf/softure-chat/issues"
+  },
+  "homepage": "https://github.com/vsouzaf/softure-chat#readme",
+  "dependencies": {
+    "express": "^4.15.2",
+    "mongoose": "4.13.9",
+    "socket.io": "^2.2.0"
+  },
+  "devDependencies": {
+    "@types/mongoose": "4.7.32",
+    "@types/express": "4.17.0"
+  }
+}
