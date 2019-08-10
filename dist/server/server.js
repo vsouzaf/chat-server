@@ -5,6 +5,8 @@ const express = require("express");
 const http = require("http");
 const mongoose = require("mongoose");
 const io = require("socket.io");
+const cors = require("cors");
+const bodyParser = require("body-parser");
 class Server {
     constructor() {
         this.clients = [];
@@ -19,27 +21,30 @@ class Server {
         return new Promise((resolve, reject) => {
             try {
                 this.application = express();
+                this.application.use(cors());
+                this.application.use(bodyParser.json({ type: 'application/json' }));
                 for (let router of routers) {
                     router.apllyRoutes(this.application);
                 }
                 this.server = new http.Server(this.application);
                 this.socketIO = io(this.server);
                 this.socketIO.on("connection", (client) => {
-                    client.on("join", (name) => {
-                        console.log("Joined: " + name);
-                        this.clients[client.id] = name;
-                        client.emit("update", "You have connected to the server.");
-                        client.broadcast.emit("update", name + " has joined the server.");
+                    client.on("join", (joinObj) => {
+                        let socketSala = client.join(joinObj.sala);
+                        console.log("Joined: " + joinObj.nome);
+                        this.clients[client.id] = joinObj.nome;
+                        socketSala.emit("update", "You have connected to the server.");
+                        socketSala.to(joinObj.sala).broadcast.emit("update", joinObj.nome + " has joined the server.");
                     });
-                    client.on("send", (msg) => {
-                        console.log("Message: " + msg);
-                        client.broadcast.emit("chat", this.clients[client.id], msg);
+                    client.on("send", (msgObg) => {
+                        console.log("Message: " + msgObg.texto);
+                        client.to(msgObg.sala).broadcast.emit("chat", this.clients[client.id], msgObg.texto);
                     });
-                    client.on("disconnect", () => {
-                        console.log("Disconnect");
-                        this.socketIO.emit("update", this.clients[client.id] + " has left the server.");
-                        delete this.clients[client.id];
-                    });
+                    // client.on("disconnect", () => {
+                    //     console.log("Disconnect");
+                    //     this.socketIO.emit("update", this.clients[client.id] + " has left the server.");
+                    //     delete this.clients[client.id];
+                    // });
                 });
                 this.server.listen(environment_1.environment.server.port, () => {
                     resolve(this);
