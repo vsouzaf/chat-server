@@ -31,14 +31,12 @@ class Server {
                 this.socketIO.on("connection", (client) => {
                     client.on("join", (joinObj) => {
                         let socketSala = client.join(joinObj.sala);
-                        console.log("Joined: " + joinObj.nome);
-                        this.clients[client.id] = joinObj.nome;
-                        socketSala.emit("update", "You have connected to the server.");
+                        this.clients[joinObj.sala][client.id] = joinObj.nome;
+                        socketSala.to(joinObj.sala).emit("update", "You have connected to the server.");
                         socketSala.to(joinObj.sala).broadcast.emit("update", joinObj.nome + " has joined the server.");
                     });
                     client.on("send", (msgObg) => {
-                        console.log("Message: " + msgObg.texto);
-                        client.to(msgObg.sala).broadcast.emit("chat", this.clients[client.id], msgObg.texto);
+                        client.to(msgObg.sala).broadcast.emit("chat", this.clients[msgObg.sala][client.id], msgObg.texto);
                     });
                     // client.on("disconnect", () => {
                     //     console.log("Disconnect");

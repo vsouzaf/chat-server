@@ -1,13 +1,17 @@
 import * as mongoose from 'mongoose'
 
 export interface Sala extends mongoose.Document {
-  token: string
+    token: string,
+    participantes: Array<any>
 }
 
 const salaSchema = new mongoose.Schema({
-  token: {
-    type: String
-  }
+    token: {
+        type: String
+    },
+    participantes: {
+        type: Object
+    }
 })
 
- export const Sala = mongoose.model<Sala>('Sala', salaSchema);
+export const Sala = mongoose.model<Sala>('Sala', salaSchema);
