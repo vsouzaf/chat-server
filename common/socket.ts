@@ -1,6 +1,6 @@
 import {EventEmitter} from "events";
-import {Server} from "socket.io";
+import * as io from "socket.io";
 
 export abstract class Socket extends EventEmitter {
-    abstract apllySockets(socketIO: Server)
+    abstract apllySockets(socketIO: io.Socket)
 }

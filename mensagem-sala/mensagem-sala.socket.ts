@@ -1,7 +1,9 @@
 import {Socket} from "../common/socket";
-import {Server} from "socket.io";
+import * as io from "socket.io";
+import {salaService} from "../sala/sala.service";
 
 class MensagemSalaSocket extends Socket {
-    apllySockets(socketIO: Server) {
+    apllySockets(socketIO: io.Socket) {
+
     }
 }

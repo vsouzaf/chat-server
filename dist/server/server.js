@@ -29,15 +29,19 @@ class Server {
                 this.server = new http.Server(this.application);
                 this.socketIO = io(this.server);
                 this.socketIO.on("connection", (client) => {
-                    client.on("join", (joinObj) => {
-                        let socketSala = client.join(joinObj.sala);
-                        this.clients[joinObj.sala][client.id] = joinObj.nome;
-                        socketSala.to(joinObj.sala).emit("update", "You have connected to the server.");
-                        socketSala.to(joinObj.sala).broadcast.emit("update", joinObj.nome + " has joined the server.");
-                    });
-                    client.on("send", (msgObg) => {
-                        client.to(msgObg.sala).broadcast.emit("chat", this.clients[msgObg.sala][client.id], msgObg.texto);
-                    });
+                    for (let socket of sockets) {
+                        socket.apllySockets(client);
+                    }
+                    // client.on("join", (joinObj) => {
+                    //     let socketSala = client.join(joinObj.sala);
+                    //     this.clients[joinObj.sala][client.id] = joinObj.nome;
+                    //     socketSala.to(joinObj.sala).emit("update", "You have connected to the server.");
+                    //     socketSala.to(joinObj.sala).broadcast.emit("update", joinObj.nome + " has joined the server.");
+                    // });
+                    //
+                    // client.on("send", (msgObg) => {
+                    //     client.to(msgObg.sala).broadcast.emit("chat", this.clients[msgObg.sala][client.id], msgObg.texto);
+                    // });
                     // client.on("disconnect", () => {
                     //     console.log("Disconnect");
                     //     this.socketIO.emit("update", this.clients[client.id] + " has left the server.");
