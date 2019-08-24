@@ -8,9 +8,14 @@ class SalaService {
     isParticipanteEhDaSala(tokenSala: string, pariticipante: any) {
         return new Promise((resolve, reject) => {
             this.salaModel.findOne({
-                'token': tokenSala
+                'token': tokenSala,
+                'participantes': {
+                    $elemMatch: {
+                        idExterno: pariticipante.idExterno
+                    }
+                }
             }, (err, teste: Sala) => {
-                if(teste && teste.participantes.find(elem => elem.idExterno == pariticipante.idExterno)) {
+                if(teste) {
                     resolve(true);
                 }
                 reject(false);

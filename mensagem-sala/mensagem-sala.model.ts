@@ -2,20 +2,28 @@ import * as mongoose from 'mongoose'
 import {Sala} from "../sala/sala.model";
 
 export interface MensagemSala extends mongoose.Document {
-    sala: Sala,
+    sala: string,
     remetente: Object,
-    mensagem: string
+    mensagem: string,
+    dataEnvio: Date,
+    dataLeitura: Date
 }
 
 const salaSchema = new mongoose.Schema({
-    sala: {
-        type: Sala
+    tokenSala: {
+        type: String
     },
     remetente: {
         type: Object
     },
     mensagem: {
         type: String
+    },
+    dataEnvio: {
+        type: Date
+    },
+    dataLeitura: {
+        type: Date
     }
 })
 
