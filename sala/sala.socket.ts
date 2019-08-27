@@ -5,7 +5,7 @@ import {salaService} from './sala.service';
 class SalaSocket extends Socket {
     apllySockets(socketIO: io.Socket) {
         socketIO.on("entrar-sala", (joinObj) => {
-            salaService.isParticipanteEhDaSala(joinObj.sala, joinObj.participante).then(
+            salaService.getParticipanteDaSalaPorIdExterno(joinObj.sala, joinObj.participante.idExterno).then(
                 this.criarSalaDeConversa(socketIO, joinObj)
             ).catch(err => console.log("Participante não é da sala"));
         });

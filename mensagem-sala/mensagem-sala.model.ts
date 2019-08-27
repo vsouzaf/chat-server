@@ -27,4 +27,4 @@ const salaSchema = new mongoose.Schema({
     }
 })
 
-export const MensagemSala = mongoose.model<MensagemSala>('Sala', salaSchema);
+export const MensagemSala = mongoose.model<MensagemSala>('MensagemSala', salaSchema);
