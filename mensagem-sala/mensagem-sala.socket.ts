@@ -8,10 +8,20 @@ class MensagemSalaSocket extends Socket {
         socketIO.on("enviar-mensagem", (paramsDeEnvioDeMsg) => {
             salaService.getParticipanteDaSalaPorIdExterno(paramsDeEnvioDeMsg.sala, paramsDeEnvioDeMsg.idExterno).then(
                 (participante: any) => {
-                    mensagemSalaService.salvarMensagem(paramsDeEnvioDeMsg.sala, participante, paramsDeEnvioDeMsg.mensagem);
-                    // socketIO.to(paramsDeEnvioDeMsg.sala).broadcast.emit("chat", paramsDeEnvioDeMsg.texto);
+                    mensagemSalaService.salvarMensagem(paramsDeEnvioDeMsg.sala, participante, paramsDeEnvioDeMsg.mensagem).then(
+                        (msg) => {
+                            socketIO.to(paramsDeEnvioDeMsg.sala).broadcast.emit("mensagem-recebida", msg);
+                        }
+                    );
                 }
             )
+        });
+
+
+        socketIO.on("ler-mensagem", (paramsLerMensagem) => {
+            mensagemSalaService.lerMensagem(paramsLerMensagem.sala, paramsLerMensagem.id).then(
+                (msg) => socketIO.to(paramsLerMensagem.sala).broadcast.emit("mensagem-lida", msg)
+            );
         });
     }
 }

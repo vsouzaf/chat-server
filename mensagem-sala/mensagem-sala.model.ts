@@ -6,7 +6,8 @@ export interface MensagemSala extends mongoose.Document {
     remetente: Object,
     mensagem: string,
     dataEnvio: Date,
-    dataLeitura: Date
+    dataLeitura: Date,
+    id: string
 }
 
 const salaSchema = new mongoose.Schema({
@@ -24,6 +25,9 @@ const salaSchema = new mongoose.Schema({
     },
     dataLeitura: {
         type: Date
+    },
+    id: {
+        type: String
     }
 })
 
