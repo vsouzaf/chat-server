@@ -41,6 +41,12 @@ class MensagemSalaService {
             })
         });
     }
+
+    getUltimasMensagensPorSala(sala: string) {
+        return this.mensagemSalaModel.find({
+            'tokenSala': sala
+        }).sort({'dataEnvio': -1});
+    }
 }
 
 export const mensagemSalaService = new MensagemSalaService(MensagemSala);

@@ -18,4 +18,17 @@ export abstract class Router extends EventEmitter {
             response.send(404)
         }
     }
+
+    renderAll(response){
+        return (documents: any[])=>{
+            if(documents){
+                documents.forEach(document=>{
+                    this.emit('beforeRender', document)
+                })
+                response.json(documents)
+            }else{
+                response.json([])
+            }
+        }
+    }
 }

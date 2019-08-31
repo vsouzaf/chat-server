@@ -24,6 +24,7 @@ class SalaRouter extends Router{
     renderObj(document, response) {
         super.renderObj(document, response);
     }
+
 }
 
 export const salaRouter = new SalaRouter();
